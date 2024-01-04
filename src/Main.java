@@ -8,12 +8,13 @@ public class Main {
     public static void main(String[] args) {
         List<Object_> l = new ArrayList<>();
         /**/
-        l.add(new Object_(1,6,new int[]{1,4}));
-        l.add(new Object_(2,5,new int[]{}));
-        l.add(new Object_(3,4,new int[]{1,8,8}));
-        l.add(new Object_(4,3,new int[]{2}));
-        l.add(new Object_(5,2,new int[]{}));
-        l.add(new Object_(6,1,new int[]{22,2}));
+        l.add(new Object_(1,6,new int[]{2}));
+        l.add(new Object_(2,5,new int[]{1,3,5,4,6}));
+        l.add(new Object_(3,4,new int[]{2}));
+        l.add(new Object_(4,3,new int[]{5,2,6}));
+        l.add(new Object_(5,2,new int[]{2,4}));
+        l.add(new Object_(6,1,new int[]{2,4}));
+        /**/
 
 
 
@@ -21,7 +22,10 @@ public class Main {
         Object_ b = new Object_(2,6,new int[0]);
 
 
-        Dsatur(l);
+        List<Object_> res = Dsatur(l);
+        for (Object_ o: res) {
+            System.out.println(o.indice+"     "+o.color);
+        }
 
 
 
@@ -113,20 +117,46 @@ public class Main {
         Object_ etap2 = liste_trier.get(0);     // etape 2
         etap2.color = 1;
         res.put(etap2.indice, etap2);
-
-        while (liste_trier.size() != 0){
-
-        }
-
         liste_trier.remove(0);
 
+        while (liste_trier.size() != 0){
+            Object_ sommetAcolorier = null;
+            int saturation_maxima = -1;
+            int degre_S = -1;
+            ArrayList<Integer> couleurVoisin_de_S =  new ArrayList<>();
 
-        for (Object_ o: liste_trier ) {
-            System.out.println(o.indice+" ");
+            for (int i = 0; i < liste_trier.size(); i++) {
+                Object_ tmp = liste_trier.get(i);
+                int degre_tmp = 0;
+                ArrayList<Integer> couleurVoisin_de_tmp = new ArrayList<>();
+                for (int indice: tmp.indice_incompatible) {
+                    Object_ voisin = res.get(indice);
+                    if (voisin != null){
+                        if (!(couleurVoisin_de_tmp.contains(voisin.color))){
+                            couleurVoisin_de_tmp.add(voisin.color);
+                        }
+                        degre_tmp+=1;
+                    }
+                }
+                if (saturation_maxima < couleurVoisin_de_tmp.size() ||
+                        (saturation_maxima == couleurVoisin_de_tmp.size() && degre_S < degre_tmp)) {// inférieur à la size de listecouleur
+                    saturation_maxima = couleurVoisin_de_tmp.size();
+                    couleurVoisin_de_S = couleurVoisin_de_tmp;
+                    degre_S = degre_tmp;
+                    sommetAcolorier = tmp;
+                }
+            }
+            sommetAcolorier.color = 1;
+            for (int i = 1; i <=couleurVoisin_de_S.size()+1 ; i++) {
+                if(!couleurVoisin_de_S.contains(i)){
+                    sommetAcolorier.color = i;
+                    break;
+                }
+            }
+            res.put(sommetAcolorier.indice,sommetAcolorier);
+            liste_trier.remove(sommetAcolorier);
         }
-
-
-        return null;
+        return new ArrayList<>(res.values());
     }
 
 }
