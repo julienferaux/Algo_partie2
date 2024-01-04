@@ -5,6 +5,7 @@ public class Boite {
     public List<Object_> list = new ArrayList<>();
     public List<Integer> list_indice = new ArrayList<>();
     public int remplissage = 0;
+    public int color = -1;
     public Boite() {
     }
 

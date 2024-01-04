@@ -8,26 +8,21 @@ public class Main {
     public static void main(String[] args) {
         List<Object_> l = new ArrayList<>();
         /**/
-        l.add(new Object_(1,6,new int[]{2}));
-        l.add(new Object_(2,5,new int[]{1,3,5,4,6}));
+        l.add(new Object_(1,5,new int[]{2}));
+        l.add(new Object_(2,5,new int[]{1,3,5,4}));
         l.add(new Object_(3,4,new int[]{2}));
-        l.add(new Object_(4,3,new int[]{5,2,6}));
+        l.add(new Object_(4,1,new int[]{5,2,6}));
         l.add(new Object_(5,2,new int[]{2,4}));
-        l.add(new Object_(6,1,new int[]{2,4}));
+        l.add(new Object_(6,1,new int[]{4}));
         /**/
 
 
 
-        Object_ a = new Object_(1,6, new int[]{2});
-        Object_ b = new Object_(2,6,new int[0]);
-
-
         List<Object_> res = Dsatur(l);
-        for (Object_ o: res) {
-            System.out.println(o.indice+"     "+o.color);
-        }
 
-
+//System.out.println(DsaturWithFFDpacking(res,7));
+  //      System.out.println("-------------------");
+//System.out.println(DsaturWithBFDpacking(res,7));
 
 
     }
@@ -158,5 +153,86 @@ public class Main {
         }
         return new ArrayList<>(res.values());
     }
+
+    public static String DsaturWithFFDpacking(List<Object_> liste, int tailleBoite){
+        HashMap<Integer,ArrayList<Boite>> map_listBoit = new HashMap<>(); // une liste de boite par couleur (couleur est un entier)
+        for (Object_ o: liste) {
+            int couleur = o.color;
+            if(!map_listBoit.containsKey(couleur)){
+                ArrayList<Boite> tmp = new ArrayList<>();
+                tmp.add(new Boite());
+                map_listBoit.put(couleur,tmp);
+            }
+            ArrayList<Boite> listBoit = map_listBoit.get(couleur);
+            for (int i = 0; i< listBoit.size();i++) {
+                Boite b = listBoit.get(i);
+                if(tailleBoite - b.remplissage >= o.taille){
+                    b.add(o);
+                    break;
+                }else if(i+1 == listBoit.size()){
+                    Boite boite = new Boite();
+                    boite.add(o);
+                    listBoit.add(boite);
+                    break;
+                }
+            }
+        }
+
+        String res ="";
+        for (ArrayList<Boite>listBoit : map_listBoit.values() ) {
+            for (Boite b : listBoit) {
+                res += b.toString()+"\n";
+            }
+        }
+
+        return res;
+    }
+
+    public static String DsaturWithBFDpacking(List<Object_> liste, int tailleBoite) {
+        HashMap<Integer,ArrayList<Boite>> map_listBoit = new HashMap<>(); // une liste de boite par couleur (couleur est un entier)
+        for (Object_ o : liste) {
+            int couleur = o.color;
+            if(!map_listBoit.containsKey(couleur)){
+                ArrayList<Boite> tmp = new ArrayList<>();
+                tmp.add(new Boite());
+                map_listBoit.put(couleur,tmp);
+            }
+            ArrayList<Boite> listBoit = map_listBoit.get(couleur);
+
+            Boite bestFitBoite = null;
+            int minRemainingSpace = Integer.MIN_VALUE;
+
+            // Parcourir les boîtes disponibles pour trouver la meilleure boîte
+            for (Boite b : listBoit) {
+                if (tailleBoite - b.remplissage >= o.taille) {
+                    int remainingSpace = tailleBoite - b.remplissage - o.taille;
+                    if (remainingSpace > minRemainingSpace) {
+                        minRemainingSpace = remainingSpace;
+                        bestFitBoite = b;
+                    }
+                }
+            }
+
+            // Si une boite appropriée est trouvee, ajouter lobjet
+            if (bestFitBoite != null) {
+                bestFitBoite.add(o);
+            } else { // Sinon crer une nouvelle boite
+                Boite boite = new Boite();
+                boite.add(o);
+                listBoit.add(boite);
+            }
+        }
+
+        // Creer la chaine de resultat
+
+        StringBuilder res = new StringBuilder();
+        for (ArrayList<Boite>listBoit : map_listBoit.values() ) {
+            for (Boite b : listBoit) {
+                res.append(b.toString()).append("\n");
+            }
+        }
+        return res.toString();
+    }
+
 
 }

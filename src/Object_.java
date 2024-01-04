@@ -25,4 +25,12 @@ public class Object_ {
         }
         return res;
     }
+
+    @Override
+    public String toString() {
+        return "Object_{" +
+                "indice=" + indice +
+                ", indice_incompatible=" + indice_incompatible +
+                "}";
+    }
 }
