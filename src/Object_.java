@@ -4,6 +4,7 @@ public class Object_ {
     public int indice;
     public int taille;
     public ArrayList<Integer> indice_incompatible =new ArrayList<>();
+    public int color = -1;
 
     public Object_( int indice, int taille, int[] tab) {
         this.indice = indice;
