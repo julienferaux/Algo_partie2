@@ -6,23 +6,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) {
-        List<Object_> l = new ArrayList<>();
-        /**/
+
+        /*
         l.add(new Object_(1,5,new int[]{2}));
         l.add(new Object_(2,5,new int[]{1,3,5,4}));
         l.add(new Object_(3,4,new int[]{2}));
         l.add(new Object_(4,1,new int[]{5,2,6}));
         l.add(new Object_(5,2,new int[]{2,4}));
         l.add(new Object_(6,1,new int[]{4}));
-        /**/
+        */
 
+        DSJC125 fichier = new DSJC125();
+        List<Object_> l = fichier.data;
 
 
         List<Object_> res = Dsatur(l);
 
-//System.out.println(DsaturWithFFDpacking(res,7));
-  //      System.out.println("-------------------");
-//System.out.println(DsaturWithBFDpacking(res,7));
+        System.out.println(DsaturWithFFDpacking(res,150));
+          //      System.out.println("-------------------");
+        System.out.println(DsaturWithBFDpacking(res,7));
 
 
     }
@@ -179,13 +181,15 @@ public class Main {
         }
 
         String res ="";
+        int nb_boite = 0;
         for (ArrayList<Boite>listBoit : map_listBoit.values() ) {
             for (Boite b : listBoit) {
                 res += b.toString()+"\n";
+                nb_boite++;
             }
         }
 
-        return res;
+        return res +"\n   "+nb_boite+ " boites";
     }
 
     public static String DsaturWithBFDpacking(List<Object_> liste, int tailleBoite) {
@@ -224,13 +228,15 @@ public class Main {
         }
 
         // Creer la chaine de resultat
-
+        int nb_boite = 0;
         StringBuilder res = new StringBuilder();
         for (ArrayList<Boite>listBoit : map_listBoit.values() ) {
             for (Boite b : listBoit) {
                 res.append(b.toString()).append("\n");
+                nb_boite++;
             }
         }
+        res.append("\n   "+nb_boite+ " boites");
         return res.toString();
     }
 

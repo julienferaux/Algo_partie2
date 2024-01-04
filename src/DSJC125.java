@@ -7,11 +7,12 @@ import java.util.Random;
 
 public class DSJC125 {
     public static Random random = new Random();
+    public ArrayList<Object_> data;
 
-    public static void main(String[] args) {
+    public DSJC125() {
         String nomFichier = "DSJC125.5.txt";
-        int nbSommet = 10;
-        ArrayList<Object_> data = new ArrayList<>();
+        int nbSommet = 125;
+        data = new ArrayList<>();
         for (int i = 1; i <= nbSommet; i++) {
             int randomValue = random.nextInt(41) + 10; // Génère un entier aléatoire entre 10 et 50
             data.add(new Object_(i,randomValue,new int[]{}));
@@ -34,19 +35,14 @@ public class DSJC125 {
                     int chiffre1 = Integer.parseInt(parties[1]);
                     int chiffre2 = Integer.parseInt(parties[2]);
 
-                    data.get(chiffre1).indice_incompatible.add(chiffre2);
-                    data.get(chiffre2).indice_incompatible.add(chiffre1);
+                    data.get(chiffre1-1).indice_incompatible.add(chiffre2);
+                    data.get(chiffre2-1).indice_incompatible.add(chiffre1);
 
                 }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        for (Object_ o:data
-             ) {
-            System.out.println(o.toString());
         }
     }
 }
