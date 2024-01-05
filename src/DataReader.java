@@ -5,22 +5,25 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class DSJC125 {
+public class DataReader {
     public static Random random = new Random();
     public ArrayList<Object_> data;
 
-    public DSJC125() {
-        String nomFichier = "DSJC125.5.txt";
-        int nbSommet = 125;
+    public DataReader(int nbSommet) {
+
+
+
+        String nomFichier = "DSJC"+nbSommet+".5.txt";
+
+
+
         data = new ArrayList<>();
         for (int i = 1; i <= nbSommet; i++) {
             int randomValue = random.nextInt(41) + 10; // Génère un entier aléatoire entre 10 et 50
             data.add(new Object_(i,randomValue,new int[]{}));
         }
 
-
-
-        try (InputStream inputStream = DSJC125.class.getClassLoader().getResourceAsStream(nomFichier);
+        try (InputStream inputStream = DataReader.class.getClassLoader().getResourceAsStream(nomFichier);
              BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
 
             if (inputStream == null) {

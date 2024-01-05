@@ -2,29 +2,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) {
 
-        /*
-        l.add(new Object_(1,5,new int[]{2}));
-        l.add(new Object_(2,5,new int[]{1,3,5,4}));
-        l.add(new Object_(3,4,new int[]{2}));
-        l.add(new Object_(4,1,new int[]{5,2,6}));
-        l.add(new Object_(5,2,new int[]{2,4}));
-        l.add(new Object_(6,1,new int[]{4}));
-        */
+        List<Object_> l = new ArrayList<>();
 
-        DSJC125 fichier = new DSJC125();
-        List<Object_> l = fichier.data;
+        DataReader fichier = new DataReader(125); // valeur possible : 125  250  500  1000
+         l = fichier.data;
 
 
+
+        System.out.println(fractionalPacking(l,150) + " boites");
+        System.out.println("-------------------");
+        //System.out.println(
+                FirstFitDecreasingPacking(l,150);
+        System.out.println("-------------------");
+        //System.out.println(
+                BestFitDecreasingPacking(l,150);
+        System.out.println("-------------------");
         List<Object_> res = Dsatur(l);
-
-        System.out.println(DsaturWithFFDpacking(res,150));
-          //      System.out.println("-------------------");
-        System.out.println(DsaturWithBFDpacking(res,7));
+        //System.out.println(
+                DsaturWithFFDpacking(res,150);
+        System.out.println("-------------------");
+        //System.out.println(
+                DsaturWithBFDpacking(res,150);
 
 
     }
@@ -55,9 +57,11 @@ public class Main {
             }
         }
         String res ="";
+
         for (Boite b : listBoit) {
             res += b.toString()+"\n";
         }
+        System.out.println("FirstFitDecreasingPacking : "+ listBoit.size()+" boites " );
         return res;
     }
     public static String BestFitDecreasingPacking(List<Object_> liste, int tailleBoite) {
@@ -94,7 +98,7 @@ public class Main {
         for (Boite b : listBoit) {
             res.append(b.toString()).append("\n");
         }
-
+        System.out.println("BestFitDecreasingPacking : "+ listBoit.size()+" boites " );
         return res.toString();
     }
 
@@ -188,8 +192,9 @@ public class Main {
                 nb_boite++;
             }
         }
+        System.out.println("DsaturWithFFDpacking : "+ nb_boite+" boites " );
 
-        return res +"\n   "+nb_boite+ " boites";
+        return res;
     }
 
     public static String DsaturWithBFDpacking(List<Object_> liste, int tailleBoite) {
@@ -236,9 +241,7 @@ public class Main {
                 nb_boite++;
             }
         }
-        res.append("\n   "+nb_boite+ " boites");
+        System.out.println("DsaturWithBFDpacking : "+ nb_boite+" boites " );
         return res.toString();
     }
-
-
 }
